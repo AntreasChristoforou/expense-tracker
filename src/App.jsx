@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import './App.css'
+import ExpenseList from './ExpenseList'
+import ExpenseForm from './ExpenseForm'
+import FilterBar from './FilterBar'
 
-const CATEGORIES = ["Food", "Transport", "Bills", "Shopping", "Fun", "Health"];
+
+
 
 function App() {
   const [expenses, setExpenses] = useState(
@@ -10,29 +14,19 @@ function App() {
       {id : 2, name : "Diner", amount: 30, category: "Food" },
     ]
   );
+   const [filter, setFilter] = useState("All");
 
-  const [name, setName] = useState("");
-  const [amount, setAmount] = useState("");
-  const [categories, setCategories] = useState("Food");
-  const [error, setError] = useState("");
-  const [filter, setFilter] = useState("All");
+  
+  
+  
+ 
 
-  function handleAdd(){
-  const numb = Number(amount);
-  if(name.trim() === "" || amount === ""){
-    setError("Name or Amount is empty");
-    return;
-  }
-  if(Number.isNaN(numb) || numb <= 0){
-    setError("Please give an amount");
-    return;
-  }
-  const newExpense = {id: Date.now(), name : name, amount: numb, category: categories};
+  function handleAdd(name, amount , category){
+  
+  const newExpense = {id: Date.now(), name : name, amount: amount, category: category};
   setExpenses([...expenses , newExpense]);
-  setName("");
-  setAmount("");
-  setError("");
-  setCategories("Food");
+  
+  
   }
 
   function handleDelete(id){
@@ -49,31 +43,13 @@ function App() {
 
   return (
     <div>
-      <input value={name} placeholder="name" onChange={e => setName(e.target.value)}/>
-      <input type="number" value={amount} placeholder="amount" onChange={e => setAmount(e.target.value)}/>
-      <select value={categories} onChange={e => setCategories(e.target.value)}>
-          {CATEGORIES.map(category => <option key={category} value={category}>{category}</option>)}
-      </select>
-    
-      {error !== "" && <span>{error}</span>}
-      <button onClick={handleAdd} >Add</button>
-      <div>
-        <button onClick={() => setFilter("All")}>All</button>
-      {CATEGORIES.map(category => 
-      <button onClick={() => setFilter(category)}>{category}</button>
-      )}
       
-      </div>
+      <ExpenseForm onAdd={handleAdd}/>
+      <FilterBar setFilter={setFilter}/>
+      
+      <ExpenseList visible={visible} onDelete={handleDelete}/>
       <p>Total: €{total}</p>
-      <ul>
-        {
-          visible.map(expense => <li key={expense.id}>
-            {expense.name} - €{expense.amount.toFixed(2)} - {expense.category}
-            <button onClick={() => handleDelete(expense.id)}>Delete</button>
-          </li>
-          )
-        }
-      </ul>
+      
     </div>
   )
 }
