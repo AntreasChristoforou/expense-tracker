@@ -1,16 +1,20 @@
-# React + Vite
+# Expense Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A simple expense tracker built with React and Vite. Add expenses
+with a name, amount, and category, delete them, and filter by
+category. The total updates to match the filter.
 
-Currently, two official plugins are available:
+## Features
+- Add expenses with validation for empty or invalid amounts
+- Delete expenses
+- Filter by category, with a total that follows the filter
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Built with
+- React (useState, props, component composition)
+- Vite
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Components
+- `ExpenseForm` handles inputs, validation, and its own state
+- `FilterBar` shows the category buttons
+- `ExpenseList` / `ExpenseItem` render the expenses
+- `App` owns the expense list and the selected filter
