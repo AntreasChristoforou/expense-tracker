@@ -15,6 +15,7 @@ function App() {
   const [amount, setAmount] = useState("");
   const [categories, setCategories] = useState("Food");
   const [error, setError] = useState("");
+ 
 
   function handleAdd(){
   const numb = Number(amount);
@@ -37,7 +38,7 @@ function App() {
   function handleDelete(id){
     setExpenses(expenses.filter( n => n.id !== id));
   }
-
+  const total = expenses.reduce((sum,n) => sum + n.amount  , 0).toFixed(2);
   return (
     <div>
       <input value={name} placeholder="name" onChange={e => setName(e.target.value)}/>
@@ -48,12 +49,14 @@ function App() {
       
       {error !== "" && <span>{error}</span>}
       <button onClick={handleAdd} >Add</button>
+      <p>Total: €{total}</p>
       <ul>
         {
           expenses.map(expense => <li key={expense.id}>
             {expense.name} - €{expense.amount.toFixed(2)} - {expense.category}
             <button onClick={() => handleDelete(expense.id)}>Delete</button>
-          </li>)
+          </li>
+          )
         }
       </ul>
     </div>
