@@ -26,12 +26,16 @@ function App() {
     setError("Please give an amount");
     return;
   }
-  const newExpense = {id: Date.now(), name : name, amount: Number(amount), category: categories};
+  const newExpense = {id: Date.now(), name : name, amount: numb, category: categories};
   setExpenses([...expenses , newExpense]);
   setName("");
   setAmount("");
   setError("");
   setCategories("Food");
+  }
+
+  function handleDelete(id){
+    setExpenses(expenses.filter( n => n.id !== id));
   }
 
   return (
@@ -48,6 +52,7 @@ function App() {
         {
           expenses.map(expense => <li key={expense.id}>
             {expense.name} - €{expense.amount.toFixed(2)} - {expense.category}
+            <button onClick={() => handleDelete(expense.id)}>Delete</button>
           </li>)
         }
       </ul>
