@@ -15,7 +15,7 @@ function App() {
   const [amount, setAmount] = useState("");
   const [categories, setCategories] = useState("Food");
   const [error, setError] = useState("");
- 
+  const [filter, setFilter] = useState("All");
 
   function handleAdd(){
   const numb = Number(amount);
@@ -38,7 +38,15 @@ function App() {
   function handleDelete(id){
     setExpenses(expenses.filter( n => n.id !== id));
   }
-  const total = expenses.reduce((sum,n) => sum + n.amount  , 0).toFixed(2);
+
+    const visible = expenses.filter(e => {
+    if(filter === "All") return true;
+    return e.category === filter ;
+  });
+
+  const total = visible.reduce((sum,n) => sum + n.amount  , 0).toFixed(2);
+
+
   return (
     <div>
       <input value={name} placeholder="name" onChange={e => setName(e.target.value)}/>
@@ -46,13 +54,20 @@ function App() {
       <select value={categories} onChange={e => setCategories(e.target.value)}>
           {CATEGORIES.map(category => <option key={category} value={category}>{category}</option>)}
       </select>
-      
+    
       {error !== "" && <span>{error}</span>}
       <button onClick={handleAdd} >Add</button>
+      <div>
+        <button onClick={() => setFilter("All")}>All</button>
+      {CATEGORIES.map(category => 
+      <button onClick={() => setFilter(category)}>{category}</button>
+      )}
+      
+      </div>
       <p>Total: €{total}</p>
       <ul>
         {
-          expenses.map(expense => <li key={expense.id}>
+          visible.map(expense => <li key={expense.id}>
             {expense.name} - €{expense.amount.toFixed(2)} - {expense.category}
             <button onClick={() => handleDelete(expense.id)}>Delete</button>
           </li>
